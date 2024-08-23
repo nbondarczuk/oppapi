@@ -63,7 +63,7 @@ docker/help:
 	@echo
 	@echo 'Usage:'
 	@echo '    make docker/image          create docker image'
-	@echo '    make docker/publish        publish docker image'
+	@echo '    make docker/image/publish  publish docker image'
 	@echo '    make docker/clean          clean docker image'
 	@echo '    make docker/compose/up     start docker compose'
 	@echo '    make docker/compose/down   stop docker compose'
