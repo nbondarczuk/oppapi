@@ -1,0 +1,81 @@
+{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "http"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "description": "Online Payment Platform API",
+    "contact": {
+      "email": "nbondarczuk@yahoo.com"
+    },
+    "version": "1.0.0"
+  },
+  "host": "localhost:8080",
+  "basePath": "/",
+  "paths": {
+    "/payment": {
+      "post": {
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "payment"
+        ],
+        "summary": "Creates a new payment.",
+        "operationId": "CreateHandler",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/payment/{id}": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "payment"
+        ],
+        "summary": "Reads one one payment by id.",
+        "operationId": "ReadOneHandler",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "ID of the payment",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  }
+}

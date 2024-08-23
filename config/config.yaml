@@ -1,0 +1,17 @@
+application:
+  name: oppapi
+server:
+  http:
+    address: localhost
+    port: 8080
+log:
+  level: DEBUG
+  format: text
+repsitory:
+  dbname: mongo
+  url: mongodb://localhost:27017
+cache:
+  redis:
+    address: 127.0.0.1:6379
+    password: ""
+    db: "0"

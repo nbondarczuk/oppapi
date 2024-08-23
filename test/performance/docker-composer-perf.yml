@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  go-gin-server:
+    build:
+        context: ../..
+        dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    external_links:
+      - mongodb
+      - redis
+    restart: always
+
+  redis:
+    image: redis
+    restart: always
+
+  mongodb:
+    image: mongo:4.4.3
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    restart: always
+
+  tester:
+    image: go-gin-server-performance
+    restart: always
