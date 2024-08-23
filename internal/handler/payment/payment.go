@@ -5,9 +5,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 
+	"oppapi/internal/bank"
 	"oppapi/internal/model"
 	repository "oppapi/internal/repository/payment"
-	"oppapi/internal/bank"
 )
 
 // CreateHandler creates a new payment.
@@ -16,16 +16,16 @@ import (
 // Creates a new payment.
 // ---
 // produces:
-//  - application/json
+//   - application/json
 //
 // responses:
-//   '200':
-//	   description: OK
-//   '400':
-//	   description: Bad Request
-//   '500':
-//	   description: Internal Server Error
 //
+//	  '200':
+//		   description: OK
+//	  '400':
+//		   description: Bad Request
+//	  '500':
+//		   description: Internal Server Error
 func CreateHandler(c *gin.Context) {
 	var payment model.Payment
 	// Check input ie. new object attributes from request body.
@@ -54,8 +54,8 @@ func CreateHandler(c *gin.Context) {
 		return
 	}
 	r := map[string]interface{}{
-		"Status": tval.Status,
-		"Payment": pval,
+		"Status":      tval.Status,
+		"Payment":     pval,
 		"Transaction": tval,
 	}
 	c.JSON(http.StatusOK, r)
@@ -73,18 +73,19 @@ func CreateHandler(c *gin.Context) {
 //     description: ID of the payment
 //     required: true
 //     type: string
+//
 // produces:
 // - application/json
 // responses:
-//   '200':
-//	   description: OK
-//   '400':
-//	   description: Bad Request
-//   '404':
-//     description: Not Found
-//   '500':
-//	   description: Internal Server Error
 //
+//	  '200':
+//		   description: OK
+//	  '400':
+//		   description: Bad Request
+//	  '404':
+//	    description: Not Found
+//	  '500':
+//		   description: Internal Server Error
 func ReadOneHandler(c *gin.Context) {
 	id := c.Param("id")
 	if id == "" {

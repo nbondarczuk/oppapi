@@ -15,3 +15,13 @@ cache:
     address: 127.0.0.1:6379
     password: ""
     db: "0"
+bank:
+  url: http://localhost:8081
+merchant:
+  name: AlfaBetaGamma
+  address: Whatever wherever 123, 12-123, Somewhere
+  token: 12121212
+  bank:
+    name: World Bank Inc.
+    swiftcode: SWIFT
+    iban: 123
