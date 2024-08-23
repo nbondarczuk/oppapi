@@ -1,7 +1,7 @@
 package model
 
 // swagger:model isocurrencycode
-type ISOCurrencyCode [3]byte
+type ISOCurrencyCode string
 
 // swagger:model creditcard
 type CreditCard struct {
@@ -16,3 +16,7 @@ type PaymentMethod struct {
 	CreditCard `json:"creditcard" bson:"creditcard"`
 }
 
+// swagger:model customerparty
+type CustomerParty struct {
+	Identification PaymentMethod `json:"identification" bson:"identification"`
+}

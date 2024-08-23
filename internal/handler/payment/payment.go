@@ -7,6 +7,7 @@ import (
 
 	"oppapi/internal/model"
 	repository "oppapi/internal/repository/payment"
+	"oppapi/internal/bank"
 )
 
 // CreateHandler creates a new payment.
@@ -40,15 +41,22 @@ func CreateHandler(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	rval, err := tc.Create(&payment)
+	pval, err := tc.Create(&payment)
 	if err != nil {
 		// Handle error in object creation.
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+	tval, err := bank.Resolve(payment)
+	if err != nil {
+		// Handle error in payment resolution by marchant's bank.
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
 	r := map[string]interface{}{
-		"Status": "Ok",
-		"Object": rval,
+		"Status": tval.Status,
+		"Payment": pval,
+		"Transaction": tval,
 	}
 	c.JSON(http.StatusOK, r)
 	return
