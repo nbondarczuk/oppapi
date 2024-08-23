@@ -19,6 +19,26 @@
   "host": "localhost:8080",
   "basePath": "/",
   "paths": {
+    "/health": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "health"
+        ],
+        "summary": "Check server status.",
+        "operationId": "HealthHandler",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/payment": {
       "post": {
         "produces": [

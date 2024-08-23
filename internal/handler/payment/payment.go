@@ -5,7 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	cache "oppapi/internal/cache/payment"
+	"oppapi/internal/model"
 	repository "oppapi/internal/repository/payment"
 )
 
@@ -26,7 +26,7 @@ import (
 //	   description: Internal Server Error
 //
 func CreateHandler(c *gin.Context) {
-	var payment repository.Payment
+	var payment model.Payment
 	// Check input ie. new object attributes from request body.
 	if err := c.ShouldBindJSON(&payment); err != nil {
 		// Handle error in request body.
@@ -81,33 +81,20 @@ func ReadOneHandler(c *gin.Context) {
 	id := c.Param("id")
 	if id == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Empty payment id provided"})
+		return
 	}
-	cache, err := cache.NewPaymentCache()
+	// The controlle gives access to particular collection.
+	tc, err := repository.NewPaymentRepository()
 	if err != nil {
 		// Handle error in repository allocation.
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	rval, found, err := cache.Check(id)
+	rval, err := tc.ReadOne(id)
 	if err != nil {
-		// Handle error in repository allocation.
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		// Handle error in repository read operation.
+		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 		return
-	}
-	if !found {
-		// The controlle gives access to particular collection.
-		tc, err := repository.NewPaymentRepository()
-		if err != nil {
-			// Handle error in repository allocation.
-			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-			return
-		}
-		rval, err = tc.ReadOne(id)
-		if err != nil {
-			// Handle error in repository read operation.
-			c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
-			return
-		}
 	}
 	r := map[string]interface{}{
 		"Status": "Ok",

@@ -7,6 +7,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"go.mongodb.org/mongo-driver/mongo"
+
+	"oppapi/internal/model"
 )
 
 var (
@@ -54,10 +56,7 @@ func TestMain(m *testing.M) {
 
 func TestPaymentCreate(t *testing.T) {
 	cleanAll()
-	payment := Payment{
-		Label: "label1",
-		Color: "color1",
-	}
+	payment := model.Payment{}
 	rv, err := testRepository.Create(&payment)
 	if assert.Nil(t, err) {
 		assert.False(t, rv.ID.IsZero())
@@ -68,10 +67,7 @@ func TestPaymentCreate(t *testing.T) {
 
 func TestPaymentReadOne(t *testing.T) {
 	cleanAll()
-	payment := Payment{
-		Label: "label3",
-		Color: "color3",
-	}
+	payment := model.Payment{}
 	rv1, err1 := testRepository.Create(&payment)
 	require.Nil(t, err1)
 	require.False(t, rv1.ID.IsZero())

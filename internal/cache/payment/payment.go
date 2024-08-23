@@ -3,7 +3,7 @@ package tag
 import (
 	"encoding/json"
 	"oppapi/internal/cache"
-	"oppapi/internal/repository/payment"
+	"oppapi/internal/model"
 )
 
 const PaymentEntityName = "payment"
@@ -25,12 +25,12 @@ func NewPaymentCache() (*PaymentCache, error) {
 }
 
 // Check does a dive into the redis cache for an id.
-func (tc *PaymentCache) Check(id string) (payment.Payment, bool, error) {
+func (tc *PaymentCache) Check(id string) (model.Payment, bool, error) {
 	val, err := tc.cache.Client.Get(PaymentEntityName).Result()
 	if err != nil {
-		return payment.Payment{}, false, err
+		return model.Payment{}, false, err
 	}
-	var payment payment.Payment
+	var payment model.Payment
 	json.Unmarshal([]byte(val), &payment)
 	return payment, true, nil
 }
