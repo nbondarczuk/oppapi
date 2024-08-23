@@ -8,6 +8,7 @@ import (
 	"oppapi/internal/cache"
 	"oppapi/internal/config"
 	"oppapi/internal/handler/payment"
+	"oppapi/internal/handler/system"
 	"oppapi/internal/logging"
 	"oppapi/internal/middleware"
 	"oppapi/internal/repository"
@@ -49,6 +50,7 @@ func (s *Server) Run() error {
 
 // RegisterHandlers links handlers to API points.
 func (s *Server) RegisterHandlers() {
+	s.router.GET("/health", system.HealthHandler)
 	s.router.POST("/payment", payment.CreateHandler)
 	s.router.GET("/payment/:id", payment.ReadOneHandler)
 }
