@@ -31,11 +31,16 @@ func Resolve(payment model.Payment) (model.Transaction, error) {
 	logging.Logger.Info("Resolving payment",
 		slog.String("payment.ID", string(payment.ID.Hex())))
 	// Charging for the payment with transaction
+	var amount string = payment.Amount
+	// In case of REFUND the reverse transaction is done (up to the bank interface)
+	if payment.Type == "REFUND" {
+		amount = "-" + amount
+	}
 	t := model.Transaction{
 		// To make easy link between transaction and payment
 		ID:       payment.ID,
 		// Charged by full amount
-		Amount:   payment.Amount,
+		Amount:   amount,
 		Currency: payment.Currency,
 		// Using mocked merchant selling goods to the customer
 		Merchant: merchant,
@@ -46,12 +51,12 @@ func Resolve(payment model.Payment) (model.Transaction, error) {
 		Status:  "PENDING",
 		Created: time.Now(),
 	}
-	// Hit the bank mock with payload of a transaction
+	// Hit the bank interface with payload of a transaction
 	client := resty.New()
 	_, err := client.R().
 		SetHeader("Accept", "application/json").
 		SetAuthToken(merchant.Token).
-		Post("http://localhost:8080/transaction")
+		Post("http://localhost:8080/bankmock/transaction")
 	if err != nil {
 		t.Status = "ERROR"
 	} else {

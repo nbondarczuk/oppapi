@@ -69,3 +69,24 @@ func (tc *PaymentRepository) ReadOne(id string) (model.Payment, error) {
 	logging.Logger.Debug("Read payment", slog.String("ID", fmt.Sprintf("%v", payment.ID)))
 	return payment, nil
 }
+
+// SetStatus changes the payment record
+func (tc *PaymentRepository) SetStatus(id string, status string) error {
+	updated := time.Now()
+	ID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return err
+	}
+	_, err = tc.collection.UpdateOne(tc.ctx,
+		bson.M{"_id": ID},
+		bson.D{{"$set",
+			bson.D{
+				{"Status", status},
+				{"Updated", updated},
+			}}})
+	if err != nil {
+		return err
+	}
+	logging.Logger.Debug("Updated payment status", slog.String("ID", fmt.Sprintf("%v", ID)))
+	return nil
+}

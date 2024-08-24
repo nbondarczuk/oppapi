@@ -96,6 +96,64 @@
           }
         }
       }
+    },
+    "/refund": {
+      "post": {
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "refund"
+        ],
+        "summary": "Creates a new refund.",
+        "operationId": "CreateHandler",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/refund/{id}": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "refund"
+        ],
+        "summary": "Reads one one refund by id.",
+        "operationId": "ReadOneHandler",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "ID of the refund",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
     }
   }
 }
