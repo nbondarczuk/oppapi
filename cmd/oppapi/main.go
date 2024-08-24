@@ -19,9 +19,6 @@ func showStartupInfo() {
 	logging.Logger.Info("Config", slog.String("log.format", config.LogFormat()))
 	logging.Logger.Info("Config", slog.String("repository.dbname", config.RepositoryDBName()))
 	logging.Logger.Info("Config", slog.String("repository.url", config.RepositoryURL()))
-	logging.Logger.Info("Config", slog.String("cache.redis.address", config.CacheRedisAddress()))
-	logging.Logger.Info("Config", slog.String("cache.redis.password", config.CacheRedisPassword()))
-	logging.Logger.Info("Config", slog.String("cache.redis.db", config.CacheRedisDB()))
 }
 
 func main() {

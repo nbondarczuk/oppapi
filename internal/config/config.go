@@ -84,18 +84,6 @@ func bindEnvVars() error {
 	if err != nil {
 		return err
 	}
-	err = options.Viper.BindEnv("cache.redis.address", "CACHE_REDIS_ADDRESS")
-	if err != nil {
-		return err
-	}
-	err = options.Viper.BindEnv("cache.redis.password", "CACHE_REDIS_PASSWORD")
-	if err != nil {
-		return err
-	}
-	err = options.Viper.BindEnv("cache.redis.db", "CACHE_REDIS_DB")
-	if err != nil {
-		return err
-	}
 	return nil
 }
 

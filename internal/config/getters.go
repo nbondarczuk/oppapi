@@ -29,15 +29,3 @@ func RepositoryDBName() string {
 func RepositoryURL() string {
 	return string(options.Viper.Get("repository.url").(string))
 }
-
-func CacheRedisAddress() string {
-	return string(options.Viper.Get("cache.redis.address").(string))
-}
-
-func CacheRedisPassword() string {
-	return string(options.Viper.Get("cache.redis.password").(string))
-}
-
-func CacheRedisDB() string {
-	return fmt.Sprintf("%d", options.Viper.GetInt("cache.redis.db"))
-}

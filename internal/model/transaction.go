@@ -21,14 +21,6 @@ type Transaction struct {
 	// required: true
 	Currency ISOCurrencyCode `json:"currency" bson:"currency"`
 
-	// the status of the transaction after clearing
-	// required: true
-	Status string
-
-	// date of creation of the payment
-	// required: true
-	Created time.Time `json:"created" bson:"created"`
-
 	// merchant data used in bank account determination
 	// required: true
 	Merchant MerchantParty `json:"merchant" bson:"merchant"`
@@ -36,4 +28,12 @@ type Transaction struct {
 	// customer data used payment method indentifcation to be resolved by bank
 	// required: true
 	Customer CustomerParty `json:"customer" bson:"customer"`
+
+	// the status of the transaction after clearing
+	// required: true
+	Status string
+
+	// date of creation of the payment
+	// required: true
+	Created time.Time `json:"created" bson:"created"`
 }

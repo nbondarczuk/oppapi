@@ -19,11 +19,6 @@ log:
 repsitory:
   dbname: mongo
   url: mongodb://localhost:27017
-cache:
-  redis:
-    address: 127.0.0.1:6379
-    password: xyz
-    db: 0
 `
 	makeTestConfigFile(t, input)
 	defer cleanupTestConfigFile(t)
@@ -37,7 +32,4 @@ cache:
 	assert.Equal(t, "text2", options.GetString("log.format"))
 	assert.Equal(t, "mongo", options.GetString("repository.dbname"))
 	assert.Equal(t, "mongodb://localhost:27017", options.GetString("repository.url"))
-	assert.Equal(t, "127.0.0.1:6379", options.GetString("cache.redis.address"))
-	assert.Equal(t, "xyz", options.GetString("cache.redis.password"))
-	assert.Equal(t, "0", options.GetString("cache.redis.db"))
 }

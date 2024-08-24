@@ -10,7 +10,6 @@ type AddressDetails struct {
 // swagger:model bankdetails
 type BankDetails struct {
 	Name      string `json:"name" bson:"name"`
-	SWIFTCODE string `json:"swiftcode" bson:"swiftcode"`
 	IBAN      string `json:"iban" bson:"iban"`
 }
 

@@ -19,9 +19,4 @@ const (
 	// repository - mongo
 	DefaultRepositoryDBName = "mongo"
 	DefaultRepositoryURL    = "mongodb://localhost:27017"
-
-	// cache - redis
-	DefaultCacheRedisAddress  = "127.0.0.1:6379"
-	DefaultCacheRedisPassword = ""
-	DefaultCacheRedisDB       = "0"
 )

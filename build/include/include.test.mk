@@ -35,5 +35,4 @@ test/help:
 	@echo '    make test/unit/short       run unit tests with verbose level and coverage in short mode'
 	@echo '    make test/unit/cover       run unit tests with coverage and start default broweser'
 	@echo '    make test/run              run run tests'
-	@echo '    make test/integration      run integration tests with docker compose'
-	@echo '    make test/performance      run performance tests with docker compose'
+
