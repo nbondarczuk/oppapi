@@ -29,3 +29,7 @@ func RepositoryDBName() string {
 func RepositoryURL() string {
 	return string(options.Viper.Get("repository.url").(string))
 }
+
+func AuthXAPIKey() string {
+	return string(options.Viper.Get("auth.x_api_key").(string))
+}

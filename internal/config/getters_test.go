@@ -47,6 +47,11 @@ func TestGettersWithStringRV(t *testing.T) {
 			getter:   RepositoryURL,
 			expected: "mongodb://localhost:27017",
 		},
+		{
+			label:    "AutXAPIKey",
+			getter:   AuthXAPIKEy,
+			expected: "something",
+		},
 	}
 	input := `application:
   name: oppapi
@@ -60,6 +65,8 @@ log:
 repsitory:
   dbname: mongo
   url: mongodb://localhost:27017
+auth:
+  x_api_key: something
 `
 	makeTestConfigFile(t, input)
 	defer cleanupTestConfigFile(t)

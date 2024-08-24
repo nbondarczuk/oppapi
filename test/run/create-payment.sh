@@ -3,8 +3,9 @@
 PORT=8080
 HOST=localhost
 URL=http://${HOST}:${PORT}/payment
-HEADER="\"Content-Type: application/json\""
-CMD="curl -s -v --trace-ascii out.txt -H $HEADER --data-binary "@examples/create-payment-request.json" $URL"
+HEADER1="\"Content-Type: application/json\""
+HEADER2="\"X-API-KEY: R6bSXS4pfo7bnI0zIdMqiA=\""
+CMD="curl -s -v --trace-ascii out.txt -H $HEADER1 -H $HEADER2 --data-binary "@examples/create-payment-request.json" $URL"
 echo -n Request:
 jq <examples/create-payment-request.json
 echo Running command: $CMD

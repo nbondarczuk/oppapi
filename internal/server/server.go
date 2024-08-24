@@ -54,10 +54,12 @@ func (s *Server) RegisterHandlers() {
 	s.router.GET("/health", handler.HealthHandler)
 
 	// api points for payments & refunds
-	s.router.POST("/payment", payment.CreatePaymentHandler)
-	s.router.GET("/payment/:id", payment.ReadOnePaymentHandler)
-	s.router.POST("/refund/:id", refund.CreateRefundHandler)
-	s.router.GET("/refund/:id", refund.ReadOneRefundHandler)
+	auth := s.router.Group("/")
+	auth.Use(middleware.Auth())
+	auth.POST("/payment", payment.CreatePaymentHandler)
+	auth.GET("/payment/:id", payment.ReadOnePaymentHandler)
+	auth.POST("/refund/:id", refund.CreateRefundHandler)
+	auth.GET("/refund/:id", refund.ReadOneRefundHandler)
 
 	// bank mock for payment processing
 	s.router.POST("/bankmock/transaction", transaction.CreateHandler)

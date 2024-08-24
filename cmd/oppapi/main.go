@@ -19,6 +19,7 @@ func showStartupInfo() {
 	logging.Logger.Info("Config", slog.String("log.format", config.LogFormat()))
 	logging.Logger.Info("Config", slog.String("repository.dbname", config.RepositoryDBName()))
 	logging.Logger.Info("Config", slog.String("repository.url", config.RepositoryURL()))
+	logging.Logger.Info("Config", slog.String("auth.x_api_key", config.AuthXAPIKey()))
 }
 
 func main() {

@@ -49,6 +49,58 @@
         ],
         "summary": "Creates a new payment.",
         "operationId": "CreatePaymentHandler",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "ID",
+            "name": "id",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "x-go-name": "Type",
+            "name": "type",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "x-go-name": "Amount",
+            "name": "amount",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "x-go-name": "Currency",
+            "name": "currency",
+            "in": "query"
+          },
+          {
+            "$ref": "#/definitions/PaymentMethod",
+            "x-go-name": "Method",
+            "name": "method",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "x-go-name": "Status",
+            "name": "status",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "format": "date-time",
+            "x-go-name": "Created",
+            "name": "created",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "format": "date-time",
+            "x-go-name": "Modified",
+            "name": "modified",
+            "in": "query"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -70,7 +122,7 @@
         "tags": [
           "payment"
         ],
-        "summary": "Reads one one payment by id.",
+        "summary": "Reads one payment by id.",
         "operationId": "ReadOnePaymentHandler",
         "parameters": [
           {
@@ -152,6 +204,30 @@
           }
         }
       }
+    }
+  },
+  "definitions": {
+    "PaymentMethod": {
+      "type": "object",
+      "properties": {
+        "cardno": {
+          "type": "string",
+          "x-go-name": "CardNo"
+        },
+        "ccv": {
+          "type": "string",
+          "x-go-name": "CCV"
+        },
+        "expirtdate": {
+          "type": "string",
+          "x-go-name": "ExpiryDate"
+        },
+        "nameandsurename": {
+          "type": "string",
+          "x-go-name": "NameAndSurname"
+        }
+      },
+      "x-go-package": "oppapi/internal/model"
     }
   }
 }

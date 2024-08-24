@@ -19,6 +19,8 @@ log:
 repsitory:
   dbname: mongo
   url: mongodb://localhost:27017
+auth:
+  x_api_key: R6bSXS4pfo7bnI0zIdMqiA==
 `
 	makeTestConfigFile(t, input)
 	defer cleanupTestConfigFile(t)
@@ -32,4 +34,5 @@ repsitory:
 	assert.Equal(t, "text2", options.GetString("log.format"))
 	assert.Equal(t, "mongo", options.GetString("repository.dbname"))
 	assert.Equal(t, "mongodb://localhost:27017", options.GetString("repository.url"))
+	assert.Equal(t, "R6bSXS4pfo7bnI0zIdMqiA==", options.GetString("auth.x_api_key.url"))
 }

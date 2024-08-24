@@ -19,4 +19,7 @@ const (
 	// repository - mongo
 	DefaultRepositoryDBName = "mongo"
 	DefaultRepositoryURL    = "mongodb://localhost:27017"
+
+	// auth
+	DefaultAuthXAPIKey      = "nothing"
 )

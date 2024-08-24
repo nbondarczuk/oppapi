@@ -84,6 +84,10 @@ func bindEnvVars() error {
 	if err != nil {
 		return err
 	}
+	err = options.Viper.BindEnv("auth.x_api_key", "AUTH_X_API_KEY")
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
