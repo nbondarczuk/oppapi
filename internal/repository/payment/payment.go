@@ -56,7 +56,7 @@ func (tc *PaymentRepository) Create(payment *model.Payment) (*model.Payment, err
 
 // ReadOne fetches one object by primary key.
 func (tc *PaymentRepository) ReadOne(id string) (model.Payment, error) {
-	logging.Logger.Debug("Reading payment")
+	logging.Logger.Debug("Reading payment", slog.String("ID", id))
 	var payment model.Payment
 	ID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
@@ -72,6 +72,7 @@ func (tc *PaymentRepository) ReadOne(id string) (model.Payment, error) {
 
 // SetStatus changes the payment record
 func (tc *PaymentRepository) SetStatus(id string, status string) error {
+	logging.Logger.Debug("Updating payment", slog.String("ID", id))
 	updated := time.Now()
 	ID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {

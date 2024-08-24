@@ -1,6 +1,7 @@
 package bank
 
 import (
+	"fmt"
 	"log/slog"
 	"time"
 
@@ -55,14 +56,16 @@ func Resolve(payment model.Payment) (model.Transaction, error) {
 	client := resty.New()
 	_, err := client.R().
 		SetHeader("Accept", "application/json").
-		SetAuthToken(merchant.Token).
+		SetAuthToken(t.Merchant.Token).
 		Post("http://localhost:8080/bankmock/transaction")
 	if err != nil {
-		t.Status = "ERROR"
+		t.Status = fmt.Sprintf("ERROR: %v", err)
 	} else {
 		t.Status = "OK"
 	}
-	logging.Logger.Info("Resolved payment",
+	// Anonymize after use not to reveal in transaction record returned from api.
+	t.Merchant.Token = ""
+	logging.Logger.Info("Resolved payment with transaction",
 		slog.String("payment.ID", string(payment.ID.Hex())),
 		slog.String("transaction.ID", string(t.ID.Hex())),
 		slog.String("transaction.Status", t.Status))

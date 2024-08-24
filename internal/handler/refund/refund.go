@@ -1,6 +1,7 @@
 package refund
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -62,11 +63,10 @@ func CreateHandler(c *gin.Context) {
 	}
 	tval, err := bank.Resolve(refund)
 	if err != nil {
-		// Handle error in refund resolution by marchant's bank.
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
+		pval.Status = fmt.Sprintf("ERROR: %v", err)
+	} else {
+		pval.Status = "OK"
 	}
-	pval.Status = "OK"
 	err = tc.SetStatus(pval.ID.Hex(), pval.Status)
 	if err != nil {
 		// Handle error payment update.
