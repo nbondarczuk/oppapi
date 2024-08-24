@@ -18,11 +18,11 @@ type Payment struct {
 
 	// the amount of the payment
 	// required: true
-	Amount string `json:"amount" bson:"amount"`
+	Amount string `json:"amount" binding:"required" bson:"amount"`
 
 	// the currency of the amount of the payment
 	// required: true
-	Currency ISOCurrencyCode `json:"currency" bson:"currency"`
+	Currency ISOCurrencyCode `json:"currency" binding:"required" bson:"currency"`
 
 	// the payment methid, it may be Payment card
 	// required: true

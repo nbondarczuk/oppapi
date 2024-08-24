@@ -22,6 +22,7 @@ run:
 clean:
 	rm -f ./bin/$(TARGET)
 	find . -name *~ -exec rm {} \;
+	rm -f ./test/run/out.*
 
 help:
 	@echo '* Help *'

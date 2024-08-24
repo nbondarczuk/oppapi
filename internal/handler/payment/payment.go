@@ -2,18 +2,20 @@ package payment
 
 import (
 	"fmt"
+	"log/slog"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 
 	"oppapi/internal/bank"
+	"oppapi/internal/logging"
 	"oppapi/internal/model"
 	repository "oppapi/internal/repository/payment"
 )
 
-// CreateHandler creates a new payment.
+// CreatePaymentHandler creates a new payment.
 //
-// swagger:operation POST /payment payment CreateHandler
+// swagger:operation POST /payment payment CreatePaymentHandler
 // Creates a new payment.
 // ---
 // produces:
@@ -27,7 +29,7 @@ import (
 //		   description: Bad Request
 //	  '500':
 //		   description: Internal Server Error
-func CreateHandler(c *gin.Context) {
+func CreatePaymentHandler(c *gin.Context) {
 	var payment model.Payment
 	// Check input ie. new object attributes from request body.
 	if err := c.ShouldBindJSON(&payment); err != nil {
@@ -35,6 +37,9 @@ func CreateHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	logging.Logger.Debug("Payment",
+		slog.String("Amount", payment.Amount),
+		slog.String("Currency", string(payment.Currency)))
 	// The controller gives access to particular collection.
 	tc, err := repository.NewPaymentRepository()
 	if err != nil {
@@ -71,10 +76,10 @@ func CreateHandler(c *gin.Context) {
 	return
 }
 
-// ReadHOneHandler reads one payment by id.
+// ReadHOnePaymentHandler reads one payment by id.
 //
-// swagger:operation GET /payment/{id} payment ReadOneHandler
-// Reads one one payment by id.
+// swagger:operation GET /payment/{id} payment ReadOnePaymentHandler
+// Reads one payment by id.
 // ---
 // parameters:
 //   - name: id
@@ -95,7 +100,7 @@ func CreateHandler(c *gin.Context) {
 //	    description: Not Found
 //	  '500':
 //		   description: Internal Server Error
-func ReadOneHandler(c *gin.Context) {
+func ReadOnePaymentHandler(c *gin.Context) {
 	id := c.Param("id")
 	if id == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Empty payment id provided"})

@@ -1,0 +1,12 @@
+{
+  "amount": "100.00",
+  "currency": "USD",
+  "method": {
+    "creditcard": {
+      "nameandsurename": "Good Customer",
+      "cardno": "1234567890",
+      "ccv": "123",
+      "expirtdate": "01/25"
+    }
+  }
+}

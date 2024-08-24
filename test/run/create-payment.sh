@@ -3,8 +3,11 @@
 PORT=8080
 HOST=localhost
 URL=http://${HOST}:${PORT}/payment
-DATA="{}"
 HEADER="\"Content-Type: application/json\""
-CMD="curl -H $HEADER -d $DATA $URL"
-echo -n Running command: $CMD " - result: "
-eval $CMD
+CMD="curl -s -v --trace-ascii out.txt -H $HEADER --data-binary "@examples/create-payment-request.json" $URL"
+echo -n Request:
+jq <examples/create-payment-request.json
+echo Running command: $CMD
+eval $CMD >out.json 2>out.err
+echo -n Response:
+jq <out.json

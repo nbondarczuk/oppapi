@@ -5,4 +5,4 @@ PORT=8080
 URL=http://${HOST}:${PORT}/health
 CMD="curl $URL"
 echo -n Running command: $CMD " - result: "
-eval $CMD
+eval $CMD | jq

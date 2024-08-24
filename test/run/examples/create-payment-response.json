@@ -1,0 +1,50 @@
+{
+  "Payment": {
+    "id": "66c9df35588d07aa9c34b4c2",
+    "type": "REGULAR",
+    "amount": "",
+    "currency": "",
+    "method": {
+      "creditcard": {
+        "nameandsurename": "",
+        "cardno": "",
+        "ccv": "",
+        "expirtdate": ""
+      }
+    },
+    "Status": "OK",
+    "created": "2024-08-24T15:25:09.62846+02:00",
+    "modified": "0001-01-01T00:00:00Z"
+  },
+  "Status": "OK",
+  "Transaction": {
+    "id": "66c9df35588d07aa9c34b4c2",
+    "amount": "",
+    "currency": "",
+    "merchant": {
+      "name": "Merchan's name",
+      "address": {
+        "line1": "Address line 1",
+        "line2": "Address line 2",
+        "line3": "Address line 3"
+      },
+      "token": "",
+      "bank": {
+        "name": "Merchant's name",
+        "iban": "PL1234567890"
+      }
+    },
+    "customer": {
+      "identification": {
+        "creditcard": {
+          "nameandsurename": "",
+          "cardno": "",
+          "ccv": "",
+          "expirtdate": ""
+        }
+      }
+    },
+    "Status": "OK",
+    "created": "2024-08-24T15:25:09.628835+02:00"
+  }
+}

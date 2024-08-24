@@ -11,9 +11,9 @@ import (
 	repository "oppapi/internal/repository/payment"
 )
 
-// CreateHandler creates a new refund using reference to the original payment.
+// CreateRefundHandler creates a new refund using reference to the original payment.
 //
-// swagger:operation POST /refund/{id} refund CreateHandler
+// swagger:operation POST /refund/{id} refund CreateRefundHandler
 // Creates a new refund using reference to the original payment.
 // ---
 // produces:
@@ -27,7 +27,7 @@ import (
 //		   description: Bad Request
 //	  '500':
 //		   description: Internal Server Error
-func CreateHandler(c *gin.Context) {
+func CreateRefundHandler(c *gin.Context) {
 	// id is the reference to the original payment
 	id := c.Param("id")
 	if id == "" {
@@ -82,10 +82,10 @@ func CreateHandler(c *gin.Context) {
 	return
 }
 
-// ReadHOneHandler reads one refund by id.
+// ReadHOneRefundHandler reads one refund by id.
 //
-// swagger:operation GET /refund/{id} refund ReadOneHandler
-// Reads one one refund by id.
+// swagger:operation GET /refund/{id} refund ReadOneRefundHandler
+// Reads one refund by id.
 // ---
 // parameters:
 //   - name: id
@@ -106,7 +106,7 @@ func CreateHandler(c *gin.Context) {
 //	    description: Not Found
 //	  '500':
 //		   description: Internal Server Error
-func ReadOneHandler(c *gin.Context) {
+func ReadOneRefundHandler(c *gin.Context) {
 	id := c.Param("id")
 	if id == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Empty refund id provided"})
