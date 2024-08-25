@@ -21,9 +21,11 @@ repsitory:
   url: mongodb://localhost:27017
 auth:
   x_api_key: R6bSXS4pfo7bnI0zIdMqiA==
+bank:
+  url: http://localhost:8080/bankmock/transaction
 `
-	makeTestConfigFile(t, input)
-	defer cleanupTestConfigFile(t)
+	MakeTestConfigFile(t, input)
+	defer CleanupTestConfigFile(t)
 
 	err := Init()
 	assert.NoError(t, err)
@@ -35,4 +37,5 @@ auth:
 	assert.Equal(t, "mongo", options.GetString("repository.dbname"))
 	assert.Equal(t, "mongodb://localhost:27017", options.GetString("repository.url"))
 	assert.Equal(t, "R6bSXS4pfo7bnI0zIdMqiA==", options.GetString("auth.x_api_key"))
+	assert.Equal(t, "http://localhost:8080/bankmock/transaction", options.GetString("bank.url"))
 }

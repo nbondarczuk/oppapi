@@ -2,10 +2,10 @@ package handler
 
 import "github.com/gin-gonic/gin"
 
-func testRequestLogger() gin.HandlerFunc {
+func TestRequestLogger() gin.HandlerFunc {
 	return func(c *gin.Context) {}
 }
 
-func testResponseLogger() gin.HandlerFunc {
+func TestResponseLogger() gin.HandlerFunc {
 	return func(c *gin.Context) {}
 }

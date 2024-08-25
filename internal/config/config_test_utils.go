@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func makeTestConfigFile(t *testing.T, input string) {
+func MakeTestConfigFile(t *testing.T, input string) {
 	pwd, err := os.Getwd()
 	if err != nil {
 		t.Fatal(err)
@@ -42,7 +42,7 @@ func makeTestConfigFile(t *testing.T, input string) {
 	t.Logf("Produced test file: %s/%s, size: %d", Path, FileName, n)
 }
 
-func cleanupTestConfigFile(t *testing.T) {
+func CleanupTestConfigFile(t *testing.T) {
 	err := os.RemoveAll(Path)
 	if err != nil {
 		t.Fatal(err)

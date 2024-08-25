@@ -22,4 +22,7 @@ const (
 
 	// auth
 	DefaultAuthXAPIKey      = "nothing"
+
+	// bank
+	DefaultBankURL = "nothing"
 )

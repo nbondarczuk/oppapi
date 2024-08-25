@@ -52,6 +52,11 @@ func TestGettersWithStringRV(t *testing.T) {
 			getter:   AuthXAPIKey,
 			expected: "something",
 		},
+		{
+			label:    "BankURL",
+			getter:   BankURL,
+			expected: "bank",
+		},
 	}
 	input := `application:
   name: oppapi3
@@ -67,9 +72,11 @@ repsitory:
   url: mongodb://localhost:27017
 auth:
   x_api_key: something
+bank:
+  url: bank
 `
-	makeTestConfigFile(t, input)
-	defer cleanupTestConfigFile(t)
+	MakeTestConfigFile(t, input)
+	defer CleanupTestConfigFile(t)
 
 	err := Init()
 	assert.NoError(t, err)

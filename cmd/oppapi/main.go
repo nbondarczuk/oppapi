@@ -20,6 +20,7 @@ func showStartupInfo() {
 	logging.Logger.Info("Config", slog.String("repository.dbname", config.RepositoryDBName()))
 	logging.Logger.Info("Config", slog.String("repository.url", config.RepositoryURL()))
 	logging.Logger.Info("Config", slog.String("auth.x_api_key", config.AuthXAPIKey()))
+	logging.Logger.Info("Config", slog.String("bank.url", config.BankURL()))
 }
 
 func main() {

@@ -33,3 +33,7 @@ func RepositoryURL() string {
 func AuthXAPIKey() string {
 	return string(options.Viper.Get("auth.x_api_key").(string))
 }
+
+func BankURL() string {
+	return string(options.Viper.Get("bank.url").(string))
+}

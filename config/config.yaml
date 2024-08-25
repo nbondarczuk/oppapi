@@ -12,3 +12,6 @@ repsitory:
   url: mongodb://localhost:27017
 auth:
   x_api_key: R6bSXS4pfo7bnI0zIdMqiA=
+bank:
+  url: http://localhost:8080/bankmock/transaction
+  

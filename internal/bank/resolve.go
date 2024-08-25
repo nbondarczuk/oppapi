@@ -7,6 +7,7 @@ import (
 
 	resty "github.com/go-resty/resty/v2"
 
+	"oppapi/internal/config"
 	"oppapi/internal/logging"
 	"oppapi/internal/model"
 )
@@ -52,12 +53,19 @@ func Resolve(payment model.Payment) (model.Transaction, error) {
 		Status:  "PENDING",
 		Created: time.Now(),
 	}
+	// Test mode: no requests
+	if config.BankURL() == "test" {
+		logging.Logger.Info("Skip request due to test mode")
+		t.Status = "OK"
+		return t, nil
+	}
 	// Hit the bank interface with payload of a transaction
+	logging.Logger.Info("Sending request to bank", slog.String("url", config.BankURL()))
 	client := resty.New()
 	_, err := client.R().
 		SetHeader("Accept", "application/json").
 		SetAuthToken(t.Merchant.Token).
-		Post("http://localhost:8080/bankmock/transaction")
+		Post(config.BankURL())
 	if err != nil {
 		t.Status = fmt.Sprintf("ERROR: %v", err)
 	} else {

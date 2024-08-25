@@ -88,6 +88,10 @@ func bindEnvVars() error {
 	if err != nil {
 		return err
 	}
+	err = options.Viper.BindEnv("bank.url", "BANK_URL")
+	if err != nil {
+		return err
+	}
 	return nil
 }
 

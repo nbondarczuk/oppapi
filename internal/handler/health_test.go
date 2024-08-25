@@ -12,8 +12,8 @@ import (
 func setupHealthTestRouter() *gin.Engine {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.New()
-	r.Use(testRequestLogger())
-	r.Use(testResponseLogger())
+	r.Use(TestRequestLogger())
+	r.Use(TestResponseLogger())
 	r.GET("/health", HealthHandler)
 	return r
 }
