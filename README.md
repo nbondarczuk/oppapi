@@ -147,7 +147,7 @@ The following additional packages/programs shall be installed in the environment
 ### Dependencies
 
 It shall work in any MAC-OS-X platform or Linux assuming the required packages or at least some
-of the m are installed. For the beginning make, mongo, jq, curl and docker are necessary, 
+of the m are installed. For the beginning make, mongo, jq, curl and docker are necessary,
 not speaking of Golang compiler. It is essential.
 
 ### Assumptions
@@ -177,7 +177,7 @@ The only blocking point is the costs as K8S is not for free.
 
 ## Extra
 
-### Authentication and securyry
+### Authentication and security
 
 It is base on X-API-KEY. A temporary random key is stored in the config.yaml and the same
 one is used in the run scripts.
