@@ -16,7 +16,13 @@ import (
 // CreatePaymentHandler creates a new payment.
 //
 // swagger:operation POST /payment payment CreatePaymentHandler
-// Creates a new payment.
+// Creates a new payment. The required fields in the request input payload
+// are briefly validated. The new payment is created with a status PENDING.
+// The type of the payment is REGULAR. The payment stored as it is in a collection.
+// The transaction is issued to be bank of the merchant so that the payment can be cleared.
+// The result of the transaction is stored with the payment status
+// as the collection record gets updated. The payment and the transaction details
+// are returned to be client plus status code of the whole operation.
 // ---
 // produces:
 //   - application/json
@@ -79,7 +85,11 @@ func CreatePaymentHandler(c *gin.Context) {
 // ReadHOnePaymentHandler reads one payment by id.
 //
 // swagger:operation GET /payment/{id} payment ReadOnePaymentHandler
-// Reads one payment by id.
+// Reads one payment by id. This one must be provided in the path. An error
+// is returned if it is not provided. The repository is queried for a given
+// payment id. An error is retuned if it is not found. After successful
+// read operation in the repository the payment details is retned with a status code
+// of he whole operation.
 // ---
 // parameters:
 //   - name: id

@@ -6,9 +6,10 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"go.mongodb.org/mongo-driver/mongo"
 
+	"oppapi/internal/logging"
 	"oppapi/internal/model"
+	"oppapi/internal/repository"
 )
 
 var (
@@ -31,19 +32,10 @@ func setup() {
 	if err != nil {
 		panic(err)
 	}
-	cleanAll()
 }
 
 func tearDown() {
-	cleanAll()
 	testDatabase.TearDown()
-}
-
-func cleanAll() {
-	err := testRepository.Drop()
-	if err != nil {
-		panic(err)
-	}
 }
 
 // TestMain is the main entry point for testing and benchmarking.
@@ -55,27 +47,42 @@ func TestMain(m *testing.M) {
 }
 
 func TestPaymentCreate(t *testing.T) {
-	cleanAll()
-	payment := model.Payment{}
+	payment := model.Payment{
+		Amount:   "100.00",
+		Currency: "USD",
+		Method: model.PaymentMethod{
+			model.CreditCard{
+				NameAndSurname: "Good Customer",
+				CardNo:          "1234567890",
+				CCV:             "123",
+				ExpiryDate:      "01/25",
+			},
+		},
+	}
 	rv, err := testRepository.Create(&payment)
 	if assert.Nil(t, err) {
 		assert.False(t, rv.ID.IsZero())
-		assert.Equal(t, payment.Label, rv.Label)
-		assert.Equal(t, payment.Color, rv.Color)
 	}
 }
 
 func TestPaymentReadOne(t *testing.T) {
-	cleanAll()
-	payment := model.Payment{}
+	payment := model.Payment{
+		Amount:   "100.00",
+		Currency: "USD",
+		Method: model.PaymentMethod{
+			model.CreditCard{
+				NameAndSurname: "Good Customer",
+				CardNo:          "1234567890",
+				CCV:             "123",
+				ExpiryDate:      "01/25",
+			},
+		},
+	}
 	rv1, err1 := testRepository.Create(&payment)
 	require.Nil(t, err1)
 	require.False(t, rv1.ID.IsZero())
 	rv2, err2 := testRepository.ReadOne(rv1.ID.Hex())
 	if assert.Nil(t, err2) {
-		assert.False(t, rv2.ID.IsZero())
 		assert.Equal(t, rv1.ID.Hex(), rv2.ID.Hex())
-		assert.Equal(t, rv1.Label, rv2.Label)
-		assert.Equal(t, rv1.Color, rv2.Color)
 	}
 }

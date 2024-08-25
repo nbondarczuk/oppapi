@@ -14,7 +14,11 @@ import (
 // CreateRefundHandler creates a new refund using reference to the original payment.
 //
 // swagger:operation POST /refund/{id} refund CreateRefundHandler
-// Creates a new refund using reference to the original payment.
+// Creates a new refund using reference to the original payment. A refund is just
+// another payment record but the type is REFUND instead of REGULAR. The original
+// payment must be found in the collection otherwise an error is issued. A new payment
+// is cleared with a negative transaction. The repund recode and the transaction
+// are retuned to the client plus status code of the whole operation.
 // ---
 // produces:
 //   - application/json
@@ -85,7 +89,10 @@ func CreateRefundHandler(c *gin.Context) {
 // ReadHOneRefundHandler reads one refund by id.
 //
 // swagger:operation GET /refund/{id} refund ReadOneRefundHandler
-// Reads one refund by id.
+// Reads one refund by id. Refunds are just payments with specific type.
+// This type code of the payment loaded from collection is validated.
+// It must be REFUND. Upon success the refund details are returned to
+// the client plus status code.
 // ---
 // parameters:
 //   - name: id

@@ -2,7 +2,7 @@
 # This file provides all common test targets.
 #
 
-.PHONY: test
+.PHONY: test/unit
 test/unit:
 	go test -count=1 ./...
 
@@ -16,14 +16,9 @@ test/unit/cover:
 	go test -count=1 -v -buildvcs -coverprofile=/tmp/coverage.out ./...
 	go tool cover -html=/tmp/coverage.out
 
+.PHONY: test/run
 test/run:
 	make -C ./test/run
-
-test/integration:
-	make -C ./test/integration all
-
-test/performance:
-	make -C ./test/performance all
 
 test/help:
 	@echo

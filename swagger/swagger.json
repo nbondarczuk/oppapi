@@ -41,13 +41,13 @@
     },
     "/payment": {
       "post": {
+        "description": "Creates a new payment. The required fields in the request input payload\nare briefly validated. The new payment is created with a status PENDING.\nThe type of the payment is REGULAR. The payment stored as it is in a collection.\nThe transaction is issued to be bank of the merchant so that the payment can be cleared.\nThe result of the transaction is stored with the payment status\nas the collection record gets updated. The payment and the transaction details\nare returned to be client plus status code of the whole operation.",
         "produces": [
           "application/json"
         ],
         "tags": [
           "payment"
         ],
-        "summary": "Creates a new payment.",
         "operationId": "CreatePaymentHandler",
         "parameters": [
           {
@@ -116,13 +116,13 @@
     },
     "/payment/{id}": {
       "get": {
+        "description": "Reads one payment by id. This one must be provided in the path. An error\nis returned if it is not provided. The repository is queried for a given\npayment id. An error is retuned if it is not found. After successful\nread operation in the repository the payment details is retned with a status code\nof he whole operation.",
         "produces": [
           "application/json"
         ],
         "tags": [
           "payment"
         ],
-        "summary": "Reads one payment by id.",
         "operationId": "ReadOnePaymentHandler",
         "parameters": [
           {
@@ -151,13 +151,14 @@
     },
     "/refund/{id}": {
       "get": {
+        "description": "This type code of the payment loaded from collection is validated.\nIt must be REFUND. Upon success the refund details are returned to\nthe client plus status code.",
         "produces": [
           "application/json"
         ],
         "tags": [
           "refund"
         ],
-        "summary": "Reads one refund by id.",
+        "summary": "Reads one refund by id. Refunds are just payments with specific type.",
         "operationId": "ReadOneRefundHandler",
         "parameters": [
           {
@@ -184,13 +185,13 @@
         }
       },
       "post": {
+        "description": "Creates a new refund using reference to the original payment. A refund is just\nanother payment record but the type is REFUND instead of REGULAR. The original\npayment must be found in the collection otherwise an error is issued. A new payment\nis cleared with a negative transaction. The repund recode and the transaction\nare retuned to the client plus status code of the whole operation.",
         "produces": [
           "application/json"
         ],
         "tags": [
           "refund"
         ],
-        "summary": "Creates a new refund using reference to the original payment.",
         "operationId": "CreateRefundHandler",
         "responses": {
           "200": {
@@ -228,6 +229,13 @@
         }
       },
       "x-go-package": "oppapi/internal/model"
+    }
+  },
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
     }
   }
 }

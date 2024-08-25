@@ -49,12 +49,12 @@ func TestGettersWithStringRV(t *testing.T) {
 		},
 		{
 			label:    "AutXAPIKey",
-			getter:   AuthXAPIKEy,
+			getter:   AuthXAPIKey,
 			expected: "something",
 		},
 	}
 	input := `application:
-  name: oppapi
+  name: oppapi3
 server:
   http:
     address: localhost3
