@@ -114,7 +114,7 @@ The run tests are shell scripts accessing main API points. Assuming that
 the local executable is started with make run the run tets may be started with
 make test/run.
 
-## Dependencies
+## Required packages/programs
 
 The following additional packages/programs shall be installed in the environment:
 
@@ -131,3 +131,57 @@ The following additional packages/programs shall be installed in the environment
 - golangci-lint
 - jq
 - ab
+
+## Considerations
+
+### Execution instructions
+
+1. Do git clone of the repository.
+2. Make sure the mongo db is installed and started. It shall run on: mongodb://localhost:27017.
+3. Run make in the oppabi main directory.
+4. Run make run in the same location on a separate terminal session.
+5. Start the unit tests with make test/unit.
+6. Try scripts in test/run to create a payment, read it, create refund of it, read it.
+7. Check results in mongo db.
+
+### Dependencies
+
+It shall work in any MAC-OS-X platform or Linux assuming the required packages or at least some
+of the m are installed. For the beginning make, mongo, jq, curl and docker are necessary, 
+not speaking of Golang compiler. It is essential.
+
+### Assumptions
+
+- The bank is just a internal mock. It may be switched off for the test run with config flag.
+- The bank interface is not well secured. Probably something like Open Banking API may be used.
+
+## Areas for improvement
+
+* Better validation of the payload in the payment creation.
+* Increase unit test quality and coverage
+* Use go ver and other schecks in the building
+* Add monitoring nd tracing
+* Add JWT authentication and authorization layer
+* Improve go-swagger comments so that run tests can be done with swagger page
+* Add testing docker image to do integration tests
+* Use ab to make performance testin in docker producing some artefacts like graphs
+* Add of datastore caching with redis
+* Consider migrating from hadlers into the model of controller.
+
+## Cloud technologies
+
+It is possible to run it in minikube assuming it is installed. It will work in K8S
+as the yamls are provided. Docker Desktop has a simple implementation of K8S. With this
+approach it can be easily deployed on any modern cloud platform: Azure, AWS, Google.
+The only blocking point is the costs as K8S is not for free.
+
+## Extra
+
+### Authentication and securyry
+
+It is base on X-API-KEY. A temporary random key is stored in the config.yaml and the same
+one is used in the run scripts.
+
+### Audit trail
+
+It is implemented withe on nscreen logging on INFO and/or DEBUG levels.
