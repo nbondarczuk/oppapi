@@ -137,7 +137,7 @@ func ReadOneRefundHandler(c *gin.Context) {
 		return
 	}
 	r := map[string]interface{}{
-		"Status": "Ok",
+		"Status": "OK",
 		"Refund": rval,
 	}
 	c.JSON(http.StatusOK, r)

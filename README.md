@@ -158,15 +158,20 @@ not speaking of Golang compiler. It is essential.
 ## Areas for improvement
 
 * Better validation of the payload in the payment creation.
-* Increase unit test quality and coverage
-* Use go ver and other schecks in the building
-* Add monitoring nd tracing
-* Add JWT authentication and authorization layer
-* Improve go-swagger comments so that run tests can be done with swagger page
-* Add testing docker image to do integration tests
-* Use ab to make performance testin in docker producing some artefacts like graphs
-* Add of datastore caching with redis
+* Increase unit test quality and coverage.
+* Use go ver and other schecks in the building.
+* Add monitoring nd tracing.
+* Add JWT authentication and authorization layer.
+* Improve go-swagger comments so that run tests can be done with swagger page.
+* Add testing docker image to do integration tests.
+* Use ab to make performance testin in docker producing some artefacts like graphs.
+* Add of datastore caching with redis.
 * Consider migrating from hadlers into the model of controller.
+* A collection for transactions shall be consedered.
+* Payment and REfund are one structure as for now. May be there whall be two different entities.
+* The id values are not validated which cases that for really wrong id an Not Found status is returned. MAy be it shall be Bad Request.
+* Validation of the input payloads shall be added.
+* Return values of the read handlers shall be structures and not ad hoc created maps converted to json.
 
 ## Cloud technologies
 
@@ -175,12 +180,13 @@ as the yamls are provided. Docker Desktop has a simple implementation of K8S. Wi
 approach it can be easily deployed on any modern cloud platform: Azure, AWS, Google.
 The only blocking point is the costs as K8S is not for free.
 
-## Extra
+## Extras
 
 ### Authentication and security
 
 It is base on X-API-KEY. A temporary random key is stored in the config.yaml and the same
-one is used in the run scripts.
+one is used in the run scripts. A better solution shall be provided, JWT, Oauth, etc.
+This will cause maintnance of more complex data model and as such it is out of scope right wow.
 
 ### Audit trail
 
