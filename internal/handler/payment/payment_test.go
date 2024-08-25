@@ -2,6 +2,9 @@ package payment
 
 import (
 	"bytes"
+	"encoding/json"
+	"fmt"
+	"log/slog"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -13,12 +16,14 @@ import (
 	"oppapi/internal/config"
 	"oppapi/internal/handler"
 	"oppapi/internal/logging"
+	"oppapi/internal/model"
 	"oppapi/internal/repository"
+	paymentrepository "oppapi/internal/repository/payment"
 )
 
 var (
-	testDatabase   *repository.TestDatabase
-	pattern = `application:
+	testDatabase *repository.TestDatabase
+	pattern      = `application:
   name: oppapi3
 server:
   http:
@@ -71,10 +76,12 @@ func setupPaymentTestRouter() *gin.Engine {
 	r.Use(handler.TestRequestLogger())
 	r.Use(handler.TestResponseLogger())
 	r.POST("/payment", CreatePaymentHandler)
+	r.GET("/payment/:id", ReadOnePaymentHandler)
 	return r
 }
 
-func TestCreatePaymentRouteWithEmptyPayload(t *testing.T) {
+func TestCreatePaymentWithEmptyPayload(t *testing.T) {
+	// Prepare
 	config.MakeTestConfigFile(t, pattern)
 	config.Init()
 	defer config.CleanupTestConfigFile(t)
@@ -82,11 +89,16 @@ func TestCreatePaymentRouteWithEmptyPayload(t *testing.T) {
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("POST", "/payment", nil)
 	req.Header.Set("Content-Type", "application/json")
+
+	// Run
 	r.ServeHTTP(w, req)
+
+	// Check
 	assert.Equal(t, http.StatusBadRequest, w.Code)
 }
 
-func TestCreatePaymentRouteWithInvalidPayload(t *testing.T) {
+func TestCreatePaymentWithInvalidPayload(t *testing.T) {
+	// Prepare
 	config.MakeTestConfigFile(t, pattern)
 	config.Init()
 	defer config.CleanupTestConfigFile(t)
@@ -95,12 +107,23 @@ func TestCreatePaymentRouteWithInvalidPayload(t *testing.T) {
 	var payload = []byte("abracadabra")
 	req, _ := http.NewRequest("POST", "/payment", bytes.NewBuffer(payload))
 	req.Header.Set("Content-Type", "application/json")
+
+	// Run
 	r.ServeHTTP(w, req)
+
+	// Check
 	assert.Equal(t, http.StatusBadRequest, w.Code)
 }
 
+type PaymentRequestResult struct {
+	Payment     model.Payment
+	Status      string
+	Transaction model.Transaction
+}
 
-var request = `{
+func TestCreatePayment(t *testing.T) {
+	// Prepare
+	var body = `{
   "amount": "100.00",
   "currency": "USD",
   "method": {
@@ -113,15 +136,85 @@ var request = `{
   }
 }`
 
-func TestCreatePaymentRouteWith(t *testing.T) {
 	config.MakeTestConfigFile(t, pattern)
 	config.Init()
 	defer config.CleanupTestConfigFile(t)
 	r := setupPaymentTestRouter()
 	w := httptest.NewRecorder()
-	var payload = []byte(request)
+	var payload = []byte(body)
 	req, _ := http.NewRequest("POST", "/payment", bytes.NewBuffer(payload))
 	req.Header.Set("Content-Type", "application/json")
+
+	// Run
 	r.ServeHTTP(w, req)
+
+	// Check
 	assert.Equal(t, http.StatusOK, w.Code)
+	response := w.Body.String()
+	assert.NotNil(t, response)
+	assert.NotZero(t, len(response))
+	var result PaymentRequestResult
+	json.Unmarshal([]byte(response), &result)
+	logging.Logger.Debug("Result", slog.String("body", fmt.Sprintf("%+v", result)))
+	assert.Equal(t, "OK", result.Status)
+	assert.NotNil(t, result.Payment.ID)
+	assert.Equal(t, "OK", result.Payment.Status)
+	assert.Equal(t, "REGULAR", result.Payment.Type)
+	assert.Equal(t, "100.00", result.Payment.Amount)
+	assert.Equal(t, model.ISOCurrencyCode("USD"), result.Payment.Currency)
+	assert.NotNil(t, result.Transaction.ID)
+	assert.Equal(t, "100.00", result.Transaction.Amount)
+	assert.Equal(t, model.ISOCurrencyCode("USD"), result.Transaction.Currency)
+	assert.Equal(t, "OK", result.Transaction.Status)
+	assert.Equal(t, result.Payment.ID, result.Transaction.ID)
+}
+
+func TestReadOnePaymentWithInvalidID(t *testing.T) {
+	// Prepare
+	r := setupPaymentTestRouter()
+	w := httptest.NewRecorder()
+	str := "whatever"
+	req, _ := http.NewRequest("GET", "/payment/"+str, nil)
+	req.Header.Set("Content-Type", "application/json")
+
+	// Run
+	r.ServeHTTP(w, req)
+
+	// Check
+	assert.Equal(t, http.StatusNotFound, w.Code)
+}
+
+func TestReadOnePayment(t *testing.T) {
+	// Prepare
+	var payment model.Payment = model.Payment{
+		Type:     "REGULAR",
+		Amount:   "100.00",
+		Currency: "USD",
+		Status:   "OK",
+	}
+	tc, _ := paymentrepository.NewPaymentRepository()
+	pval, _ := tc.Create(&payment)
+	r := setupPaymentTestRouter()
+	w := httptest.NewRecorder()
+	req, _ := http.NewRequest("GET", "/payment/"+pval.ID.Hex(), nil)
+	logging.Logger.Debug("Request", slog.String("path", fmt.Sprintf("%s", "/payment/"+pval.ID.Hex())))
+	req.Header.Set("Content-Type", "application/json")
+
+	// Run
+	r.ServeHTTP(w, req)
+
+	// Check
+	assert.Equal(t, http.StatusOK, w.Code)
+	response := w.Body.String()
+	assert.NotNil(t, response)
+	assert.NotZero(t, len(response))
+	var result PaymentRequestResult
+	json.Unmarshal([]byte(response), &result)
+	logging.Logger.Debug("Result", slog.String("body", fmt.Sprintf("%+v", result)))
+	assert.Equal(t, "OK", result.Status)
+	assert.NotNil(t, result.Payment.ID)
+	assert.Equal(t, "OK", result.Payment.Status)
+	assert.Equal(t, "REGULAR", result.Payment.Type)
+	assert.Equal(t, "100.00", result.Payment.Amount)
+	assert.Equal(t, model.ISOCurrencyCode("USD"), result.Payment.Currency)
 }

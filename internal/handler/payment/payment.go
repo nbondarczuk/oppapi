@@ -43,7 +43,7 @@ func CreatePaymentHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	logging.Logger.Debug("Payment",
+	logging.Logger.Debug("Payment create",
 		slog.String("Amount", payment.Amount),
 		slog.String("Currency", string(payment.Currency)))
 	// The controller gives access to particular collection.
@@ -116,6 +116,7 @@ func ReadOnePaymentHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Empty payment id provided"})
 		return
 	}
+	logging.Logger.Debug("Payment read", slog.String("id", id))
 	// The controlle gives access to particular collection.
 	tc, err := repository.NewPaymentRepository()
 	if err != nil {
@@ -130,7 +131,7 @@ func ReadOnePaymentHandler(c *gin.Context) {
 		return
 	}
 	r := map[string]interface{}{
-		"Status":  "Ok",
+		"Status":  "OK",
 		"Payment": rval,
 	}
 	c.JSON(http.StatusOK, r)
