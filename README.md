@@ -45,7 +45,7 @@ is successful.
 #### GET
 
 It is a mandatory target for docker compose and K8S deployments. It does very little
-therefor it is super fast.
+therefore it is super fast.
 
 ## Config
 
@@ -159,23 +159,26 @@ not speaking of Golang compiler. It is essential.
 
 * Better validation of the payload in the payment creation.
 * Increase unit test quality and coverage.
-* Use go ver and other schecks in the building.
-* Add monitoring nd tracing.
-* Add JWT authentication and authorization layer.
-* Improve go-swagger comments so that run tests can be done with swagger page.
+* Use go ver and other checks during building.
+* Add monitoring and tracing.
+* Add JWT authentication and authorization layer with user handling.
+* Merchants shall be a separate collection with API management points instead of hardcoded one with fake config.
+* Improve go-swagger comments so that run tests can be done with one swagger page.
+* Consider using postman instead of swagger.
 * Add testing docker image to do integration tests.
-* Use ab to make performance testin in docker producing some artefacts like graphs.
-* Add of datastore caching with redis.
-* Consider migrating from hadlers into the model of controller.
-* A collection for transactions shall be consedered.
-* Payment and REfund are one structure as for now. May be there whall be two different entities.
-* The id values are not validated which cases that for really wrong id an Not Found status is returned. MAy be it shall be Bad Request.
+* Use ab to do performance testing in docker producing some artefacts like graphs doable after deployment.
+* Add datastore caching with redis.
+* Consider migrating from hadlers to the model of controller.
+* A collection for transactions shall be added.
+* Payment and Refund are one structure as for now. May be there shall be two different entities.
+* The id values are not validated which cases that for really wrong id an Not Found status is returned. May be it shall be Bad Request.
 * Validation of the input payloads shall be added.
 * Return values of the read handlers shall be structures and not ad hoc created maps converted to json.
+* Decouple bank transaction from payment creation. A data bus like Rabbit MQ shall be used to separate the request from its fullfilmetnt in async mode.
 
 ## Cloud technologies
 
-It is possible to run it in minikube assuming it is installed. It will work in K8S
+It is possible to run it in minikube assuming minikube is installed. It will work in K8S
 as the yamls are provided. Docker Desktop has a simple implementation of K8S. With this
 approach it can be easily deployed on any modern cloud platform: Azure, AWS, Google.
 The only blocking point is the costs as K8S is not for free.
@@ -184,10 +187,10 @@ The only blocking point is the costs as K8S is not for free.
 
 ### Authentication and security
 
-It is base on X-API-KEY. A temporary random key is stored in the config.yaml and the same
+It is based on X-API-KEY. A temporary random key is stored in the config.yaml file and the same
 one is used in the run scripts. A better solution shall be provided, JWT, Oauth, etc.
-This will cause maintnance of more complex data model and as such it is out of scope right wow.
+This will cause maintnance of a more complex data model and as such it is out of scope right wow.
 
 ### Audit trail
 
-It is implemented withe on nscreen logging on INFO and/or DEBUG levels.
+It is implemented as on screen logging on INFO and/or DEBUG levels.
